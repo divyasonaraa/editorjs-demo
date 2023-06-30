@@ -1,10 +1,22 @@
 <template>
   <div>
-    <div>{{ data }}</div>
-    <Editor @updateData="handleUpdateData" />
+    <div>
+      <h1>HtML Data:</h1>
+      <div>{{ data }}</div>
+    </div>
+    <div>
+      <Editor @updateData="handleUpdateData" />
+      <br />
+    </div>
+    <div>
+      <h1>Preview</h1>
+      <div v-html="data"></div>
+    </div>
 
-    <br />
-    <div v-html="data"></div>
+    <div>
+      <h1>Demo Preview</h1>
+      <div v-html="previewData" />
+    </div>
   </div>
 </template>
 
@@ -16,6 +28,7 @@ import edjsParser from "editorjs-parser";
 export default {
   data: () => ({
     data: {},
+    previewData: {},
     extingData: {
       time: 1640843780552,
       blocks: [
@@ -167,15 +180,12 @@ export default {
   methods: {
     handleUpdateData(data) {
       const parser = new edjsParser();
-      console.log("calling");
-      console.log(
-        "✈ ✈ ✈ ✈ ✈ ✈ ✈ ✈ ✈ ✈ ✈ ✈ ✈ ✈ ✈ ✈ ✈ ✈ ✈ ✈ ✈ ✈ ✈ tag",
-        parser.parse(data)
-      );
-      this.$data.data = `${parser.parse(data)}------${parser.parse(
-        this.$data.extingData
-      )}`;
+      this.$data.data = `${parser.parse(data)}`;
     },
+  },
+  mounted() {
+    const parser = new edjsParser();
+    this.previewData = `${parser.parse(this.extingData)}`;
   },
 };
 </script>
